@@ -10,16 +10,14 @@ namespace Parking
 {
     public class Car
     {
-        private static int _id;
-        public int Id { 
-            get 
-            { 
-                return _id;
-            } 
-            private set
-            { 
-                _id = value; 
-            } 
+        private Guid _Id = Guid.NewGuid();
+
+        public string Id
+        {
+            get
+            {
+                return _Id.ToString();
+            }
         }
         public string Brand { get; private set; }
         public string Model { get; private set; }
@@ -28,7 +26,7 @@ namespace Parking
         public DateTime CheckInTime { get; private set; }
         public DateTime? CheckOutTime { get; private set; } = null;
 
-        //Id++ so every new car has it's own ID
+        
         public Car(string brand, string model, Color color, string plateNumber)
         {
             Brand = brand;
@@ -37,7 +35,7 @@ namespace Parking
             PlateNumber = plateNumber;
             CheckInTime = DateTime.Now;
             Color = color;
-            Id++;
+            //_ = _Id;
         }
 
         //check out the car

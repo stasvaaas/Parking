@@ -13,12 +13,22 @@ namespace Parking
         private int _green;
         private int _blue;
         private int _opacity;
+
+        private bool IsColorValid(int colorValue)
+        {
+            return colorValue < 0 || colorValue > 255;
+        }
+
+        private bool IsOpacityValid(int colorValue)
+        {
+            return colorValue < 0 || colorValue > 255;
+        }
         public int Red
         {
             get => _red;
             private set
             {
-                if (value < 0 || value > 255)
+                if (IsColorValid(value))
                 {
                     _red = 0;
                 }
@@ -33,7 +43,7 @@ namespace Parking
             get => _green;
             private set
             {
-                if (value < 0 || value > 255)
+                if (IsColorValid(value))
                 {
                     _green = 0;
                 }
@@ -48,7 +58,7 @@ namespace Parking
             get => _blue;
             private set
             {
-                if (value < 0 || value > 255)
+                if (IsColorValid(value))
                 {
                     _blue = 0;
                 }
@@ -63,7 +73,7 @@ namespace Parking
             get => _opacity;
             private set
             {
-                if (value < 0 || value > 100)
+                if (IsOpacityValid(value))
                 {
                     _opacity = 0;
                 }
