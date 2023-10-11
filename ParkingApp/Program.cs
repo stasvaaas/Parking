@@ -15,18 +15,23 @@
             toyota.ChangeColor(color2);
             toyota.Checkout();
 
-            ParkingLot parkingLot = new ParkingLot(10);
+            using (ParkingLot parkingLot = new ParkingLot(10))
+            {
+                Console.WriteLine(parkingLot.Id);
+                parkingLot.AddCar(mazda);
+                parkingLot.AddCar(toyota);
+                parkingLot.AddCar();
+                Console.WriteLine(parkingLot.GetStateMessage());
+                parkingLot.DisplayCars();
+            }
+
             ParkingLot parkingLot2 = new ParkingLot(10);
 
-            Console.WriteLine(parkingLot.Id);
             Console.WriteLine(parkingLot2.Id);
 
-            parkingLot.AddCar(mazda);
-            parkingLot.AddCar(toyota);
-            parkingLot.AddCar();
+            
 
-            Console.WriteLine(parkingLot.GetStateMessage());
-            parkingLot.DisplayCars();
+            
         }
     }
 }
