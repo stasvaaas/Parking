@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
 namespace Parking
 {
-    public class ParkingLot
+    public class ParkingLot : IDisposable
     {
         private Guid _Id = Guid.NewGuid();
 
-        public string Id
+        public Guid Id
         {
             get
             {
-                return _Id.ToString();
+                return _Id;
             }
         }
         public string ParkingName { get; private set; }
@@ -24,12 +25,40 @@ namespace Parking
         public int ParkingCapacity { get; private set; }
         private List<Car> _cars = new List<Car>();
 
+        //constructor with no parameters and deffault value
+        public ParkingLot()
+        {
+            ParkingCapacity = 20;
+        }
+
+        //constructor with parking capacity
         public ParkingLot(int capacity)
         {
             ParkingCapacity = capacity;
         }
 
+        //constructor with parking capacity, adress and name
+        public ParkingLot(int capacity, string adress, string name)
+        {
+            ParkingCapacity = capacity;
+            ParkingAdress = adress;
+            ParkingName = name;
+        }
+
         //if the lot has capacity - you can park a car
+        // method if car can't be indentified
+        public void AddCar()
+        {
+            Car undefinedCar = new Car();
+            if (_cars.Count < ParkingCapacity)
+            { _cars.Add(undefinedCar); }
+            else
+            {
+                Console.WriteLine("No spaces in the parking lot!");
+            }
+        }
+
+        // method if car can be indentified
         public void AddCar(Car car)
         {
             if (_cars.Count < ParkingCapacity)
@@ -66,6 +95,16 @@ namespace Parking
         public string GetStateMessage()
         {
             return $"The parking lot has {ParkingCapacity - _cars.Count} empty lots.{_cars.Count} lots are in use";
+        }
+
+        //check out every car and dispose _cars List
+        public void Dispose()
+        {
+            foreach(Car car in _cars)
+            {
+                car.Checkout();
+            }
+            _cars.Clear();
         }
     }
 }
